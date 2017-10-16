@@ -1,7 +1,6 @@
 import express from 'express';
 import UserModel from '../models/users';
 import bcrypt from 'bcrypt';
-import config from '../config';
 import jwt from 'jsonwebtoken';
 
 let router = express.Router();
@@ -21,7 +20,7 @@ router.post('/', (req, res) => {
        const token = jwt.sign({
          id: user[0]._id,
          username: user[0].username
-       }, config.jwtSecret);
+       }, process.env.JWT_SECRET);
        res.json({token});
      } else {
        res.status(401).json({ errors: { form: 'Invalid Credentials'}});

@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../config';
 import UserModel from '../models/users';
 export default (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
@@ -9,7 +8,7 @@ export default (req, res, next) => {
   }
 
   if(token){
-    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if(err) {
         res.status(401).json({ error: 'Failed to authenticate'});
       } else {

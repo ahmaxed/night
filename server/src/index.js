@@ -7,6 +7,11 @@ import users from './routes/users';
 import auth from './routes/auth';
 import events from './routes/events';
 
+
+require('dotenv').config();
+
+var port = process.env.PORT || 8080;
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/vote2', { useMongoClient: true });
 
@@ -18,5 +23,4 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/events', events);
 
-
-app.listen(8080, () => console.log('Running on localhost:8080'));
+app.listen(port, () => console.log('Running on port: ' + port));
