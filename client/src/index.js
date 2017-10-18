@@ -7,7 +7,6 @@ import rootReducer from './rootReducer';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import jwtDecode from 'jwt-decode';
-
 import createRoutes from './routes';
 
 const routes = createRoutes();
@@ -33,9 +32,4 @@ ReactDOM.render(<Provider store={store}>
 );
 
 
-
-ReactDOM.render(<Provider store={store}>
-  {routes}
-</Provider>,
-  document.getElementById('root')
-);
+console.log("env: " + process.env.REACT_APP_JWT_SECRET);

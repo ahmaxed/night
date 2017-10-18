@@ -19,7 +19,8 @@ var userSchema = new Schema({
   pass_digest:{
     type: String,
     required: true
-  }
+  },
+  lastSearch: String  
 });
 
 module.exports = mongoose.model('UserModel', userSchema);
