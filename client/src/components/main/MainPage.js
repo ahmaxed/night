@@ -8,15 +8,12 @@ class MainPage extends React.Component {
     this.state = {
       isLoading: false,
       input: "",
-      bars:[]
+      bars:null
     }
-    this.props.loadBars("chicago").then(res => console.log(res.data.businesses));
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e){
-    console.log(e.target.name);
-    console.log(e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -29,8 +26,27 @@ class MainPage extends React.Component {
   }
 
   render(){
+    console.log(this.state.bars);
+    var bars = null;
+    if(this.state.bars){
+      bars = this.state.bars.map((bar, index )=>
+        <li key={index} className="list-group-item row" onClick={this.props.onClick} id = {bar.id} >
+          <div className="col-sm-3 col-xs-4">
+            <img className="img-responsive" src={bar.image_url}/>
+          </div>
+
+          <div className = "col-sm-9 col-xs-8">
+            <h5><a href={bar.transactions.url}>{bar.name}</a></h5>
+            <h5>0 people going</h5>
+          </div>
+          <button type="button" className = "btn btn-default">
+            go
+          </button>
+        </li>);
+    }
+
     return (
-      <div className="jumbotron">
+      <div className="container">
         <h1> Hi </h1>
         <div className="input-group">
             <input  name = "input" value = {this.state.input} type="text" onChange = {this.onChange} className="form-control" placeholder="Search for..."/>
@@ -38,6 +54,9 @@ class MainPage extends React.Component {
               <button className="btn btn-secondary" onClick = {this.onSubmit} type="button">Go!</button>
             </span>
         </div>
+        <ul className="list-group">
+        {bars}
+        </ul>
       </div>
     );
   }
