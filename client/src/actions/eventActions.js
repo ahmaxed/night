@@ -21,6 +21,7 @@ export function loadBars(location) {
     }
   };
 
+  //to help with the cross origin CORS error
   var crossorigin = "https://cors-anywhere.herokuapp.com/";
   return dispatch => {
     return axios.get(crossorigin + 'https://api.yelp.com/v3/businesses/search', config)
