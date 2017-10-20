@@ -1,5 +1,6 @@
 import React from 'react';
-import { loadBars } from '../../actions/eventActions';
+import { loadBars } from '../../actions/barActions';
+import { updateSearch } from '../../actions/barActions';
 import { connect } from 'react-redux';
 
 class MainPage extends React.Component {
@@ -20,31 +21,35 @@ class MainPage extends React.Component {
   }
   onSubmit(e){
     this.props.loadBars(this.state.input).then(
-      res => {this.setState({bars: res.data.businesses});
-    console.log(res.data.businesses)}
-    );
+      res => {
+        this.setState({bars: res.data.businesses});
+        return this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input});
+      }).then(res => console.log(res));
   }
 
   render(){
     console.log(this.state.bars);
     var bars = null;
     if(this.state.bars){
+      console.log(this.state.bars[0].transactions)
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id = {bar.id} >
           <div className="col-sm-3 col-xs-4">
-            <img className="img-responsive" src={bar.image_url}/>
+            <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
           </div>
 
           <div className = "col-sm-9 col-xs-8">
-            <h5><a href={bar.transactions.url}>{bar.name}</a></h5>
+            <h4><a href={bar.url}>{bar.name}</a></h4>
             <h5>0 people going</h5>
+              <button type="button" className = "btn btn-default">
+                go
+              </button>
           </div>
-          <button type="button" className = "btn btn-default">
-            go
-          </button>
+
         </li>);
     }
 
+    console.log(this.props.id);
     return (
       <div className="container">
         <h1> Hi </h1>
@@ -62,4 +67,9 @@ class MainPage extends React.Component {
   }
 }
 
-export default connect(null, {loadBars})(MainPage);
+function mapStateToProps(state) {
+    return {
+      id: state.auth.user.id
+    }
+}
+export default connect(mapStateToProps, {loadBars, updateSearch})(MainPage);

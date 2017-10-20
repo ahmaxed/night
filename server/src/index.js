@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 import users from './routes/users';
 import auth from './routes/auth';
-import events from './routes/events';
+import bars from './routes/bars';
 
 
 require('dotenv').config();
@@ -21,6 +21,6 @@ app.use(bodyParser.json());
 console.log(process.env.JWT_SECRET);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
-app.use('/api/events', events);
+app.use('/api/bars', bars);
 
 app.listen(port, () => console.log('Running on port: ' + port));
