@@ -23,8 +23,8 @@ export function loadBars(location) {
   };
 
   //to help with the cross origin CORS error
-  //var crossorigin = "https://cors-anywhere.herokuapp.com/";
+  var crossorigin = "https://cors-anywhere.herokuapp.com/";
   return dispatch => {
-    return axios.get('https://cors-anywhere.herokuapp.com/'+'https://api.yelp.com/v3/businesses/search', config)
+    return axios.get(crossorigin + 'https://api.yelp.com/v3/businesses/search', config)
   };
 }

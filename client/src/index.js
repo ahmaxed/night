@@ -30,6 +30,3 @@ ReactDOM.render(<Provider store={store}>
 </Provider>,
   document.getElementById('root')
 );
-
-
-console.log("env: " + process.env.REACT_APP_JWT_SECRET);

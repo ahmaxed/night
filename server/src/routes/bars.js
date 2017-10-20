@@ -7,7 +7,7 @@ let router = express.Router();
 router.put('/lastSearch',(req,res) => {
   let {lastSearch, _id} = req.body;
   console.log(req.body);
-  /*userModel.findOneAndUpdate({_id:_id},
+  userModel.findOneAndUpdate({_id:_id},
     {$set:{"lastSearch": lastSearch}}, {new: true},
       function(err, data){
       if(err){
@@ -15,7 +15,7 @@ router.put('/lastSearch',(req,res) => {
       }else{
         res.json(data);
       }
-  });*/
+  });
 });
 
 

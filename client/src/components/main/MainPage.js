@@ -31,7 +31,6 @@ class MainPage extends React.Component {
     console.log(this.state.bars);
     var bars = null;
     if(this.state.bars){
-      console.log(this.state.bars[0].transactions)
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id = {bar.id} >
           <div className="col-sm-3 col-xs-4">
