@@ -1,5 +1,4 @@
 import React from 'react';
-import { loadBars } from '../../actions/barActions';
 import { updateSearch } from '../../actions/barActions';
 import { connect } from 'react-redux';
 
@@ -71,4 +70,4 @@ function mapStateToProps(state) {
       id: state.auth.user.id
     }
 }
-export default connect(mapStateToProps, {loadBars, updateSearch})(MainPage);
+export default connect(mapStateToProps, {updateSearch})(MainPage);

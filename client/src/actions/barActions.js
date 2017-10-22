@@ -7,23 +7,3 @@ export function updateSearch(info) {
     return axios.put('/api/bars/lastSearch', info)
   };
 }
-
-
-export function loadBars(location) {
-  var config = {
-    headers: {
-      'Authorization': 'Bearer ' + process.env.REACT_APP_ACCESS_TOKEN
-    },
-    params:{
-      location: location,
-      term: "bars"
-    },
-
-  };
-
-  //to help with the cross origin CORS error
-  var crossorigin = "https://cors-anywhere.herokuapp.com/";
-  return dispatch => {
-    return axios.get(crossorigin + 'https://api.yelp.com/v3/businesses/search', config)
-  };
-}
