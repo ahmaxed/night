@@ -20,11 +20,11 @@ class MainPage extends React.Component {
     });
   }
   onSubmit(e){
-    this.props.loadBars(this.state.input).then(
-      res => {
-        this.setState({bars: res.data.businesses});
-        return this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input});
-      }).then(res => console.log(res));
+    this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
+    .then(res => {
+        console.log(res);
+        this.setState({bars: res.data});
+      });
   }
 
   render(){

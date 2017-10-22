@@ -9,7 +9,6 @@ export function updateSearch(info) {
 }
 
 
-
 export function loadBars(location) {
   var config = {
     headers: {
