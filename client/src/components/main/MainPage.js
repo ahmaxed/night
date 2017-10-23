@@ -8,7 +8,8 @@ class MainPage extends React.Component {
     this.state = {
       isLoading: false,
       input: "",
-      bars:null
+      bars:null,
+      attendees: null
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -26,14 +27,27 @@ class MainPage extends React.Component {
   onSubmit(e){
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
-        console.log(res);
-        this.setState({bars: res.data});
+      this.setState({bars: res.data[0],
+        attendees: res.data[1]
       });
+    });
+  }
+  onKeyDown(e){
+    if(e.keyCode === 13) {
+      this.onSubmit();
+    }
   }
 
   render(){
-    console.log(this.state.bars);
+    function GetAttendees(props) {
+      if(props.attendees[props.bar.id]) {
+        return <h5>{props.attendees[props.bar.id].users.length} attending</h5>;
+      }
+       return <h5>0 attending</h5>;
+    }
+
     var bars = null;
+
     if(this.state.bars){
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id={bar.id} >
@@ -48,16 +62,15 @@ class MainPage extends React.Component {
                 go
               </button>
           </div>
-
-        </li>);
+        </li>
+      );
     }
 
-    console.log(this.props.id);
     return (
       <div className="container">
         <h1> Hi </h1>
         <div className="input-group">
-            <input  name = "input" value = {this.state.input} type="text" onChange = {this.onChange} className="form-control" placeholder="Search for..."/>
+            <input  name = "input" value = {this.state.input} type="text" onChange = {this.onChange} onKeyDown = {this.onKeyDown} className="form-control" placeholder="Search for..."/>
             <span className="input-group-btn">
               <button className="btn btn-secondary" onClick = {this.onSubmit} type="button">Go!</button>
             </span>
