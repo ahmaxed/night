@@ -14,6 +14,7 @@ class MainPage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
   onClick(e){
     console.log(e.target.id);
@@ -57,10 +58,10 @@ class MainPage extends React.Component {
 
           <div className = "col-sm-9 col-xs-8">
             <h4><a href={bar.url}>{bar.name}</a></h4>
-            <h5>0 people going</h5>
-              <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>
-                go
-              </button>
+            <GetAttendees bar={bar} attendees={this.state.attendees}/>
+            <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>
+              go
+            </button>
           </div>
         </li>
       );
