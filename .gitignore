@@ -9,7 +9,11 @@
 # production
 #/build
 
+#mongoDB docs
+server/data/
+
 # misc
+*~
 .env
 .DS_Store
 .env.local
