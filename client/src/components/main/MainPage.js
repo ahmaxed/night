@@ -1,5 +1,5 @@
 import React from 'react';
-import { updateSearch } from '../../actions/barActions';
+import { updateSearch, addUser } from '../../actions/barActions';
 import { connect } from 'react-redux';
 
 class MainPage extends React.Component {
@@ -12,6 +12,11 @@ class MainPage extends React.Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+  onClick(e){
+    console.log(e.target.id);
+    this.props.addUser({yelpId: e.target.id, userId: this.props.id});
   }
   onChange(e){
     this.setState({
@@ -31,7 +36,7 @@ class MainPage extends React.Component {
     var bars = null;
     if(this.state.bars){
       bars = this.state.bars.map((bar, index )=>
-        <li key={index} className="list-group-item row" onClick={this.props.onClick} id = {bar.id} >
+        <li key={index} className="list-group-item row" onClick={this.props.onClick} id={bar.id} >
           <div className="col-sm-3 col-xs-4">
             <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
           </div>
@@ -39,7 +44,7 @@ class MainPage extends React.Component {
           <div className = "col-sm-9 col-xs-8">
             <h4><a href={bar.url}>{bar.name}</a></h4>
             <h5>0 people going</h5>
-              <button type="button" className = "btn btn-default">
+              <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>
                 go
               </button>
           </div>
@@ -70,4 +75,4 @@ function mapStateToProps(state) {
       id: state.auth.user.id
     }
 }
-export default connect(mapStateToProps, {updateSearch})(MainPage);
+export default connect(mapStateToProps, {updateSearch, addUser})(MainPage);

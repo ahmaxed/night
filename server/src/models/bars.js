@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var barSchema = new Schema({
   users: Array,
-  barId: String
+  yelpId: String
 });
 
 module.exports = mongoose.model('BarModel', barSchema);

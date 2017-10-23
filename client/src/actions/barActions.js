@@ -7,3 +7,9 @@ export function updateSearch(info) {
     return axios.put('/api/bars/lastSearch', info)
   };
 }
+
+export function addUser(info) {
+  return dispatch => {
+    return axios.put('/api/bars/addUser', info)
+  };
+}
