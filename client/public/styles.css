@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .navbar-collapse.collapse {
   display: block!important;
 }
@@ -19,8 +24,42 @@
 }
 
 img {
-    position: absolute;
-    clip: rect(0px,200px,100px,0px);
+  position: absolute;
+  clip: rect(0px,300px,100px,0px);
 }
 
-ul, li {border-collapse:collapse;}
+ul, li {
+  border-collapse:collapse;
+}
+
+.btn-secondary {
+  border: 1px solid #ccc; 
+}
+
+.list-group-item {
+  padding: 10px;
+  min-height: 120px;
+}
+  
+.container { 
+  width: 96%; 
+}
+
+@media screen and (max-width: 767px) {
+  
+  img {
+  	 top: -50px;
+    clip: rect(50px, 1000px, 150px, 0px);  
+  }  
+  
+  .xs {
+    padding: 110px 0 0 0 !important;
+    margin: 0 !important;
+  }
+
+  .colsx {
+	 padding: 0 !important;
+	 margin: 0 !important;
+  }
+}
+

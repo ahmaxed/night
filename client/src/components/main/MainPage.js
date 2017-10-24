@@ -31,6 +31,7 @@ class MainPage extends React.Component {
       this.setState({bars: res.data[0],
         attendees: res.data[1]
       });
+      console.log(this.state.bars);
     });
   }
   onKeyDown(e){
@@ -44,7 +45,7 @@ class MainPage extends React.Component {
       if(props.attendees[props.bar.id]) {
         return <h5>{props.attendees[props.bar.id].users.length} attending</h5>;
       }
-       return <h5>0 attending</h5>;
+       return <div></div>;
     }
 
     var bars = null;
@@ -52,16 +53,20 @@ class MainPage extends React.Component {
     if(this.state.bars){
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id={bar.id} >
-          <div className="col-sm-3 col-xs-4">
-            <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
-          </div>
-
-          <div className = "col-sm-9 col-xs-8">
-            <h4><a href={bar.url}>{bar.name}</a></h4>
+          <div className="colsx col-xs-12 col-sm-5 col-md-4 col-lg-3">
+	         <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
+	       </div>
+	       
+	       <div className="xs col-xs-6 col-sm-4 col-md-4 col-lg-6">
+	         <h4><a href={bar.url}>{bar.name}</a></h4>
+	         <h5>{bar.location.display_address[0]}</h5>
+	         <h5>{bar.location.display_address[1]}</h5>
+	       </div>
+          
+          <div className="xs col-xs-6 col-sm-3 col-md-4 col-lg-3 text-right">
+            <h5>{bar.display_phone}</h5>
             <GetAttendees bar={bar} attendees={this.state.attendees}/>
-            <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>
-              go
-            </button>
+            <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>go</button>
           </div>
         </li>
       );
