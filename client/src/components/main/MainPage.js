@@ -69,7 +69,6 @@ class MainPage extends React.Component {
 
     return (
       <div className="container">
-        <h1> Hi </h1>
         <div className="input-group">
             <input  name = "input" value = {this.state.input} type="text" onChange = {this.onChange} onKeyDown = {this.onKeyDown} className="form-control" placeholder="Search for..."/>
             <span className="input-group-btn">
