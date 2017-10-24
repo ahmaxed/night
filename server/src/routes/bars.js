@@ -85,7 +85,7 @@ router.put('/lastSearch',authenticate,(req,res) => {
         var businessesSearched = 0;
 
         response.data.businesses.forEach(business => {
-          barModel.findOne({ 'barId' : business.id }).then(bar => {
+          barModel.findOne({ 'yelpId' : business.id }).then(bar => {
           	if(bar) {
               barsWithAttendees[business.id] = bar;
             }
