@@ -1,6 +1,7 @@
 import React from 'react';
 import { updateSearch, addUser, removeUser } from '../../actions/barActions';
 import { connect } from 'react-redux';
+import { without } from 'lodash';
 
 function GetBarModelUsers(props) {
   if(props.barModel[props.bar.id]) {
@@ -43,8 +44,9 @@ class MainPage extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
   onAddUser(e){
-  	 console.log('add');
+  	console.log('add');
     console.log(e.target.id);
+
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
       console.log(res.data.users);
     }).catch( err => {
@@ -54,7 +56,27 @@ class MainPage extends React.Component {
   onRemoveUser(e){
     console.log('Remove');
     console.log(e.target.id);
-    this.props.removeUser({yelpId: e.target.id, userId: this.props.id});
+    var barId = e.target.id;
+    console.log(this.state.barModel[e.target.id].users);
+    this.props.removeUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
+      //should be changed to immutable setstate
+      var newiState = this.state.barModel;
+      newiState[barId].users = without(newiState[barId].users, this.props.id);
+      this.setState({
+        barModel: newiState
+      });
+          /*this.setState({
+            barModel: {
+              ...this.state.barModel,
+              this.state.barModel[barId]: {
+                ...this.state.barModel[barId],
+                users: without(this.state.barModel[barId].users, this.props.id)
+              }
+            },
+          });*/
+    }).catch( err => {
+
+    });
   }
   onChange(e){
     this.setState({
@@ -78,7 +100,7 @@ class MainPage extends React.Component {
 
   render(){
     var bars = null;
-
+    console.log("barmodel in render" + this.state.barModel);
     if(this.state.bars){
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id={bar.id} >
