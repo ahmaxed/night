@@ -75,14 +75,14 @@ class MainPage extends React.Component {
 	         <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
 	       </div>
 	       
-	       <div className="xs col-xs-6 col-sm-4 col-md-4 col-lg-6">
+	       <div className="xs col-xs-7 col-sm-4 col-md-4 col-lg-6">
 	         <h4><a className="btn btn-secondary" href={bar.url}>{bar.name}</a></h4>
 	         <h5>{bar.location.display_address[0]}</h5>
 	         <h5>{bar.location.display_address[1]}</h5>
 	       </div>
           
-          <div className="xs col-xs-6 col-sm-3 col-md-4 col-lg-3 text-right">
-            <h5>{bar.display_phone}</h5>
+          <div className="xs xxs col-xs-5 col-sm-3 col-md-4 col-lg-3 text-right">
+          	<h5 id="phone">{bar.display_phone}</h5>
             <GetAttendees bar={bar} attendees={this.state.attendees} />
             <GetUserStatus bar={bar} attendees={this.state.attendees} id={this.props.id} onClick={this.onClick} />
           </div>

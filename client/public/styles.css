@@ -46,14 +46,13 @@ ul, li {
 }
 
 @media screen and (max-width: 767px) {
-  
   img {
   	 top: -50px;
     clip: rect(50px, 1000px, 150px, 0px);  
   }  
   
   .xs {
-    padding: 110px 0 0 0 !important;
+    padding: 100px 0 0 0 !important;
     margin: 0 !important;
   }
 
@@ -63,3 +62,12 @@ ul, li {
   }
 }
 
+@media screen and (max-width: 367px) {
+  .xxs {
+    padding: 200px 0 0 0 !important;
+  }
+  
+  #phone{
+  	 display: none;
+  }
+}
