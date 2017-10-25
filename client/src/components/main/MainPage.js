@@ -1,31 +1,30 @@
 import React from 'react';
-import { updateSearch, addUser } from '../../actions/barActions';
+import { updateSearch, addUser, removeUser } from '../../actions/barActions';
 import { connect } from 'react-redux';
 
-function GetAttendees(props) {
-  if(props.attendees[props.bar.id]) {
-    return <h5>{props.attendees[props.bar.id].users.length} attending</h5>;
+function GetBarModelUsers(props) {
+  if(props.barModel[props.bar.id]) {
+    return <h5>{props.barModel[props.bar.id].users.length} attending</h5>;
   }
   return <div></div>;
 }
 
 function GetUserStatus(props) {
-  console.log(props.id);
-  console.log(props.attendees[props.bar.id]);
+  var currentBar = props.barModel[props.bar.id];
+  
   if (!props.id) { 
     return <div></div>;
   } 
 	
-  if(props.attendees[props.bar.id]){
-    for (var i=0; i < props.attendees[props.bar.id].users.length; i++) {   
-    console.log(i);
-      if(props.attendees[props.bar.id].users[i] === props.id) {
-        return <button id={props.bar.id} type="button" className="btn btn-danger" onClick={props.onClick}>cancel</button>;
+  if(currentBar){
+    for (var i=0; i < currentBar.users.length; i++) {   
+      if(currentBar.users[i] === props.id) {
+        return <button id={props.bar.id} type="button" className="btn btn-danger" onClick={props.onRemoveUser}>cancel</button>;
       }
     }
   }
-  
-  return <button id={props.bar.id} type="button" className="btn btn-success" onClick={props.onClick}>attend</button>;
+
+  return <button id={props.bar.id} type="button" className="btn btn-success" onClick={props.onAddUser}>attend</button>;
 }
 
 class MainPage extends React.Component {
@@ -35,16 +34,23 @@ class MainPage extends React.Component {
       isLoading: false,
       input: "",
       bars:null,
-      attendees: null
+      barModel: null
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.onAddUser = this.onAddUser.bind(this);
+    this.onRemoveUser = this.onRemoveUser.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
-  onClick(e){
+  onAddUser(e){
+  	 console.log('add');
     console.log(e.target.id);
     this.props.addUser({yelpId: e.target.id, userId: this.props.id});
+  }
+  onRemoveUser(e){
+    console.log('Remove');
+    console.log(e.target.id);
+    this.props.removeUser({yelpId: e.target.id, userId: this.props.id});
   }
   onChange(e){
     this.setState({
@@ -55,7 +61,7 @@ class MainPage extends React.Component {
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
       this.setState({bars: res.data[0],
-        attendees: res.data[1]
+        barModel: res.data[1]
       });
     });
   }
@@ -83,8 +89,8 @@ class MainPage extends React.Component {
           
           <div className="xs xxs col-xs-5 col-sm-3 col-md-4 col-lg-3 text-right">
           	<h5 id="phone">{bar.display_phone}</h5>
-            <GetAttendees bar={bar} attendees={this.state.attendees} />
-            <GetUserStatus bar={bar} attendees={this.state.attendees} id={this.props.id} onClick={this.onClick} />
+            <GetBarModelUsers bar={bar} barModel={this.state.barModel} />
+            <GetUserStatus bar={bar} barModel={this.state.barModel} id={this.props.id} onAddUser={this.onAddUser} onRemoveUser={this.onRemoveUser} />
           </div>
         </li>
       );
@@ -111,4 +117,4 @@ function mapStateToProps(state) {
       id: state.auth.user.id
     }
 }
-export default connect(mapStateToProps, {updateSearch, addUser})(MainPage);
+export default connect(mapStateToProps, {updateSearch, addUser, removeUser})(MainPage);

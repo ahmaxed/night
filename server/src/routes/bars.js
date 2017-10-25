@@ -7,7 +7,8 @@ import axios from 'axios';
 let router = express.Router();
 
 router.put('/addUser',authenticate,(req,res) => {
-  let {yelpId, userId} = req.body;
+  console.log('add');
+  /*let {yelpId, userId} = req.body;
   console.log(yelpId);
 
   barModel.findOne({"yelpId":yelpId}, "yelpId", function (err, bar) {
@@ -40,11 +41,12 @@ router.put('/addUser',authenticate,(req,res) => {
         });
       }
     }
-  })
+  })*/
 });
 
-/*router.put('/deleteUser',authenticate,(req,res) => {
-  let {yelpId, _id} = req.body;
+router.put('/removeUser',authenticate,(req,res) => {
+  console.log('remove');
+  /*let {yelpId, _id} = req.body;
   console.log(yelpId);
 
   barModel.findOne({"yelpId":yelpId}, "yelpId", function (err, bar) {
@@ -59,9 +61,9 @@ router.put('/addUser',authenticate,(req,res) => {
           console.log("Oldbar " + bar);
           res.json(bar);
         }
-      });
     });
-});*/
+  });*/
+});
 
 router.put('/lastSearch',authenticate,(req,res) => {
   let {lastSearch, _id} = req.body;
