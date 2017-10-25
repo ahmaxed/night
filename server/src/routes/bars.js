@@ -74,7 +74,8 @@ router.put('/removeUser',authenticate,(req,res) => {
   });
 });
 
-router.put('/lastSearch',authenticate,(req,res) => {
+// add authentication later
+router.put('/lastSearch',(req,res) => {
   let {lastSearch, _id} = req.body;
 
   userModel.findOneAndUpdate({_id:_id}, {$set:{"lastSearch": lastSearch}}, {new: true}, function(err, data){
