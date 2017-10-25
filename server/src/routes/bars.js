@@ -3,6 +3,8 @@ import authenticate from '../middlewares/authenticate';
 import userModel from '../models/users';
 import barModel from '../models/bars';
 import axios from 'axios';
+import { without } from 'lodash';
+
 
 let router = express.Router();
 
@@ -46,23 +48,26 @@ router.put('/addUser',authenticate,(req,res) => {
 
 router.put('/removeUser',authenticate,(req,res) => {
   console.log('remove');
-  /*let {yelpId, _id} = req.body;
+  let {yelpId, _id} = req.body;
   console.log(yelpId);
 
   barModel.findOne({"yelpId":yelpId}, "yelpId", function (err, bar) {
     if (err)
       console.log("error: "+err);
-    else {
-      bar.users.push(_id);
+    else if (bar){
+      bar.users = without(bar.users, _id);
       bar.save(function(err, bar){
         if (err) {
           res.status(500).json({ error: err });
         }else{
-          console.log("Oldbar " + bar);
+          console.log("updatedbar " + bar);
           res.json(bar);
         }
-    });
-  });*/
+      });
+    }else{
+      res.status(500).json({ error: "user non existance" });
+    }
+  });
 });
 
 router.put('/lastSearch',authenticate,(req,res) => {
