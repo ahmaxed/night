@@ -2,6 +2,32 @@ import React from 'react';
 import { updateSearch, addUser } from '../../actions/barActions';
 import { connect } from 'react-redux';
 
+function GetAttendees(props) {
+  if(props.attendees[props.bar.id]) {
+    return <h5>{props.attendees[props.bar.id].users.length} attending</h5>;
+  }
+  return <div></div>;
+}
+
+function GetUserStatus(props) {
+  console.log(props.id);
+  console.log(props.attendees[props.bar.id]);
+  if (!props.id) { 
+    return <div></div>;
+  } 
+	
+  if(props.attendees[props.bar.id]){
+    for (var i=0; i < props.attendees[props.bar.id].users.length; i++) {   
+    console.log(i);
+      if(props.attendees[props.bar.id].users[i] === props.id) {
+        return <button id={props.bar.id} type="button" className="btn btn-danger" onClick={props.onClick}>cancel</button>;
+      }
+    }
+  }
+  
+  return <button id={props.bar.id} type="button" className="btn btn-success" onClick={props.onClick}>attend</button>;
+}
+
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +57,6 @@ class MainPage extends React.Component {
       this.setState({bars: res.data[0],
         attendees: res.data[1]
       });
-      console.log(this.state.bars);
     });
   }
   onKeyDown(e){
@@ -41,13 +66,6 @@ class MainPage extends React.Component {
   }
 
   render(){
-    function GetAttendees(props) {
-      if(props.attendees[props.bar.id]) {
-        return <h5>{props.attendees[props.bar.id].users.length} attending</h5>;
-      }
-       return <div></div>;
-    }
-
     var bars = null;
 
     if(this.state.bars){
@@ -58,15 +76,15 @@ class MainPage extends React.Component {
 	       </div>
 	       
 	       <div className="xs col-xs-6 col-sm-4 col-md-4 col-lg-6">
-	         <h4><a href={bar.url}>{bar.name}</a></h4>
+	         <h4><a className="btn btn-secondary" href={bar.url}>{bar.name}</a></h4>
 	         <h5>{bar.location.display_address[0]}</h5>
 	         <h5>{bar.location.display_address[1]}</h5>
 	       </div>
           
           <div className="xs col-xs-6 col-sm-3 col-md-4 col-lg-3 text-right">
             <h5>{bar.display_phone}</h5>
-            <GetAttendees bar={bar} attendees={this.state.attendees}/>
-            <button id={bar.id} type="button" className = "btn btn-default" onClick = {this.onClick}>go</button>
+            <GetAttendees bar={bar} attendees={this.state.attendees} />
+            <GetUserStatus bar={bar} attendees={this.state.attendees} id={this.props.id} onClick={this.onClick} />
           </div>
         </li>
       );
@@ -75,9 +93,9 @@ class MainPage extends React.Component {
     return (
       <div className="container">
         <div className="input-group">
-            <input  name = "input" value = {this.state.input} type="text" onChange = {this.onChange} onKeyDown = {this.onKeyDown} className="form-control" placeholder="Search for..."/>
+            <input name = "input" value={this.state.input} type="text" onChange={this.onChange} onKeyDown={this.onKeyDown} className="form-control" placeholder="Search for..."/>
             <span className="input-group-btn">
-              <button className="btn btn-secondary" onClick = {this.onSubmit} type="button">Go!</button>
+              <button className="btn btn-secondary" onClick={this.onSubmit} type="button">Go!</button>
             </span>
         </div>
         <ul className="list-group">
