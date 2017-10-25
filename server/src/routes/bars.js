@@ -8,10 +8,10 @@ let router = express.Router();
 
 router.put('/addUser',authenticate,(req,res) => {
   console.log('add');
-  /*let {yelpId, userId} = req.body;
+  let {yelpId, userId} = req.body;
   console.log(yelpId);
 
-  barModel.findOne({"yelpId":yelpId}, "yelpId", function (err, bar) {
+  barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
       console.log("error: "+err);
     else {
@@ -41,7 +41,7 @@ router.put('/addUser',authenticate,(req,res) => {
         });
       }
     }
-  })*/
+  })
 });
 
 router.put('/removeUser',authenticate,(req,res) => {
