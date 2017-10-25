@@ -11,13 +11,13 @@ function GetBarModelUsers(props) {
 
 function GetUserStatus(props) {
   var currentBar = props.barModel[props.bar.id];
-  
-  if (!props.id) { 
+
+  if (!props.id) {
     return <div></div>;
-  } 
-	
+  }
+
   if(currentBar){
-    for (var i=0; i < currentBar.users.length; i++) {   
+    for (var i=0; i < currentBar.users.length; i++) {
       if(currentBar.users[i] === props.id) {
         return <button id={props.bar.id} type="button" className="btn btn-danger" onClick={props.onRemoveUser}>cancel</button>;
       }
@@ -45,7 +45,11 @@ class MainPage extends React.Component {
   onAddUser(e){
   	 console.log('add');
     console.log(e.target.id);
-    this.props.addUser({yelpId: e.target.id, userId: this.props.id});
+    this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
+      console.log(res.data.users);
+    }).catch( err => {
+
+    });
   }
   onRemoveUser(e){
     console.log('Remove');
@@ -60,6 +64,7 @@ class MainPage extends React.Component {
   onSubmit(e){
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
+      console.log(res.data[1]);
       this.setState({bars: res.data[0],
         barModel: res.data[1]
       });
@@ -80,13 +85,13 @@ class MainPage extends React.Component {
           <div className="colsx col-xs-12 col-sm-5 col-md-4 col-lg-3">
 	         <img className="img-responsive" src={bar.image_url} alt={bar.name}/>
 	       </div>
-	       
+
 	       <div className="xs col-xs-7 col-sm-4 col-md-4 col-lg-6">
 	         <h4><a className="btn btn-secondary" href={bar.url}>{bar.name}</a></h4>
 	         <h5>{bar.location.display_address[0]}</h5>
 	         <h5>{bar.location.display_address[1]}</h5>
 	       </div>
-          
+
           <div className="xs xxs col-xs-5 col-sm-3 col-md-4 col-lg-3 text-right">
           	<h5 id="phone">{bar.display_phone}</h5>
             <GetBarModelUsers bar={bar} barModel={this.state.barModel} />

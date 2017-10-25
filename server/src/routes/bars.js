@@ -48,14 +48,18 @@ router.put('/addUser',authenticate,(req,res) => {
 
 router.put('/removeUser',authenticate,(req,res) => {
   console.log('remove');
-  let {yelpId, _id} = req.body;
+  let {yelpId, userId} = req.body;
   console.log(yelpId);
-
-  barModel.findOne({"yelpId":yelpId}, "yelpId", function (err, bar) {
+  console.log(userId);
+  barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
       console.log("error: "+err);
     else if (bar){
-      bar.users = without(bar.users, _id);
+      var updated = without(bar.users, userId);
+      console.log("updated: " + updated);
+      console.log("id: " + userId);
+      console.log("bar.users: " + bar.users);
+      bar.users = without(bar.users, userId);
       bar.save(function(err, bar){
         if (err) {
           res.status(500).json({ error: err });
