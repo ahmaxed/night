@@ -63,7 +63,6 @@ router.put('/removeUser',authenticate,(req,res) => {
   });
 });
 
-// add authenti
 router.put('/lastSearch',(req,res) => {
   let {lastSearch, _id} = req.body;
 
@@ -82,33 +81,31 @@ router.put('/lastSearch',(req,res) => {
       };
 
       axios.get('https://api.yelp.com/v3/businesses/search', config).then(response => {
-        var barsWithAttendees = {};
-        var businessesSearched = 0;
+        var barsInDB = {};
+        var responsesChecked = 0;
 
         response.data.businesses.forEach(business => {
           barModel.findOne({ 'yelpId' : business.id }).then(bar => {
           	if(bar) {
-              barsWithAttendees[business.id] = bar;
+              barsInDB[business.id] = bar;
             }else{
-              {
-              barsWithAttendees[business.id] = {yelpId: business.id, users: []}
-              }
+              barsInDB[business.id] = {yelpId: business.id, users: []}
             }
 
-            businessesSearched++;
+            responsesChecked++;
 
-            if (businessesSearched === response.data.businesses.length) {
-              res.json([response.data.businesses, barsWithAttendees]);
+            if (responsesChecked === response.data.businesses.length) {
+              res.json([response.data.businesses, barsInDB]);
             }
           });
         });
       }).catch(err => {
         res.status(500).json({ error: err });
 
-      }); //end axios.get.catch
-    } //end if/else
-  }); //end userModel.find
-}); //end router.put
+      });
+    }
+  });
+});
 
 
 export default router;
