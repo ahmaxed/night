@@ -32,6 +32,7 @@ router.put('/addUser',authenticate,(req,res) => {
         });
       }else{
         console.log(bar);
+        // should check if already does not exist first 
         bar.users.push(userId);
         bar.save(function(err, bar){
           if (err) {
@@ -74,7 +75,7 @@ router.put('/removeUser',authenticate,(req,res) => {
   });
 });
 
-// add authentication later
+// add authenti
 router.put('/lastSearch',(req,res) => {
   let {lastSearch, _id} = req.body;
 
@@ -100,6 +101,10 @@ router.put('/lastSearch',(req,res) => {
           barModel.findOne({ 'yelpId' : business.id }).then(bar => {
           	if(bar) {
               barsWithAttendees[business.id] = bar;
+            }else{
+              {
+              barsWithAttendees[business.id] = {yelpId: business.id, users: []}
+              }
             }
 
             businessesSearched++;

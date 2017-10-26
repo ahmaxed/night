@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { without } from 'lodash';
 
 function GetBarModelUsers(props) {
+  //console.log(props.barModel[props.bar.yelpId]);
   if(props.barModel[props.bar.id]) {
     return <h5>{props.barModel[props.bar.id].users.length} attending</h5>;
   }
@@ -46,9 +47,14 @@ class MainPage extends React.Component {
   onAddUser(e){
   	console.log('add');
     console.log(e.target.id);
-
+    var barId = e.target.id;
+    //should be changed to immutable setstate
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
-      console.log(res.data.users);
+      var newiState = this.state.barModel;
+      newiState[barId].users.push(this.props.id);
+      this.setState({
+        barModel: newiState
+      });
     }).catch( err => {
 
     });
