@@ -20,7 +20,7 @@ class MainPage extends React.Component {
     this.onRemoveUser = this.onRemoveUser.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
-  
+
   onAddUser(e){
     var barId = e.target.id;
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
@@ -32,7 +32,7 @@ class MainPage extends React.Component {
     }).catch( err => {
     });
   }
-  
+
   onRemoveUser(e){
     var barId = e.target.id;
     this.props.removeUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
@@ -44,13 +44,13 @@ class MainPage extends React.Component {
     }).catch( err => {
     });
   }
-  
+
   onChange(e){
     this.setState({
       input: e.target.value
     });
   }
-  
+
   onSubmit(e){
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
@@ -59,13 +59,24 @@ class MainPage extends React.Component {
       });
     });
   }
-  
+
   onKeyDown(e){
     if(e.keyCode === 13) {
       this.onSubmit();
     }
   }
-  
+
+  componentWillMount(){
+    if(!this.state.bars && this.props.lastSearch){
+      this.props.updateSearch({_id: this.props.id, lastSearch: this.props.lastSearch})
+      .then(res => {
+        this.setState({bars: res.data[0],
+          barModel: res.data[1]
+        });
+      });
+    }
+  }
+
   render(){
     var bars = null;
     if(this.state.bars){
