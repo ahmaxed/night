@@ -1,33 +1,8 @@
 import React from 'react';
 import { updateSearch, addUser, removeUser } from '../../actions/barActions';
+import { GetBarModelUsers, GetIfUserIsAttending } from './conditionalRenders.js';
 import { connect } from 'react-redux';
 import { without } from 'lodash';
-
-function GetBarModelUsers(props) {
-  //console.log(props.barModel[props.bar.yelpId]);
-  if(props.barModel[props.bar.id]) {
-    return <h5>{props.barModel[props.bar.id].users.length} attending</h5>;
-  }
-  return <div></div>;
-}
-
-function GetUserStatus(props) {
-  var currentBar = props.barModel[props.bar.id];
-
-  if (!props.id) {
-    return <div></div>;
-  }
-
-  if(currentBar){
-    for (var i=0; i < currentBar.users.length; i++) {
-      if(currentBar.users[i] === props.id) {
-        return <button id={props.bar.id} type="button" className="btn btn-danger" onClick={props.onRemoveUser}>cancel</button>;
-      }
-    }
-  }
-
-  return <button id={props.bar.id} type="button" className="btn btn-success" onClick={props.onAddUser}>attend</button>;
-}
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -45,7 +20,6 @@ class MainPage extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
   onAddUser(e){
-  	console.log('add');
     console.log(e.target.id);
     var barId = e.target.id;
     //should be changed to immutable setstate
@@ -60,7 +34,6 @@ class MainPage extends React.Component {
     });
   }
   onRemoveUser(e){
-    console.log('Remove');
     console.log(e.target.id);
     var barId = e.target.id;
     console.log(this.state.barModel[e.target.id].users);
@@ -123,7 +96,7 @@ class MainPage extends React.Component {
           <div className="xs xxs col-xs-5 col-sm-3 col-md-4 col-lg-3 text-right">
           	<h5 id="phone">{bar.display_phone}</h5>
             <GetBarModelUsers bar={bar} barModel={this.state.barModel} />
-            <GetUserStatus bar={bar} barModel={this.state.barModel} id={this.props.id} onAddUser={this.onAddUser} onRemoveUser={this.onRemoveUser} />
+            <GetIfUserIsAttending bar={bar} barModel={this.state.barModel} id={this.props.id} onAddUser={this.onAddUser} onRemoveUser={this.onRemoveUser} />
           </div>
         </li>
       );
@@ -132,7 +105,7 @@ class MainPage extends React.Component {
     return (
       <div className="container">
         <div className="input-group">
-            <input name = "input" value={this.state.input} type="text" onChange={this.onChange} onKeyDown={this.onKeyDown} className="form-control" placeholder="Search for..."/>
+            <input name="input"  type="text" value={this.state.input} onChange={this.onChange} onKeyDown={this.onKeyDown} className="form-control" placeholder="Search for..."/>
             <span className="input-group-btn">
               <button className="btn btn-secondary" onClick={this.onSubmit} type="button">Go!</button>
             </span>
