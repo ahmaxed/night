@@ -5,17 +5,14 @@ import barModel from '../models/bars';
 import axios from 'axios';
 import { without } from 'lodash';
 
-
 let router = express.Router();
 
 router.put('/addUser',authenticate,(req,res) => {
-  console.log('add');
   let {yelpId, userId} = req.body;
-  console.log(yelpId);
 
   barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
-      console.log("error: "+err);
+      es.status(500).json({ error: err });
     else {
       if(bar === null){
         var newBar = new barModel ({
@@ -26,19 +23,16 @@ router.put('/addUser',authenticate,(req,res) => {
           if (err) {
             res.status(500).json({ error: err });
           }else{
-            console.log("newbar " + bar);
             res.json(bar);
           }
         });
       }else{
-        console.log(bar);
-        // should check if already does not exist first 
+        // should check if already does not exist first
         bar.users.push(userId);
         bar.save(function(err, bar){
           if (err) {
             res.status(500).json({ error: err });
           }else{
-            console.log("Oldbar " + bar);
             res.json(bar);
           }
         });
@@ -47,25 +41,19 @@ router.put('/addUser',authenticate,(req,res) => {
   })
 });
 
+// remove bar if no user exist
 router.put('/removeUser',authenticate,(req,res) => {
-  console.log('remove');
   let {yelpId, userId} = req.body;
-  console.log(yelpId);
-  console.log(userId);
   barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
-      console.log("error: "+err);
+      res.status(500).json({ error: err });
     else if (bar){
       var updated = without(bar.users, userId);
-      console.log("updated: " + updated);
-      console.log("id: " + userId);
-      console.log("bar.users: " + bar.users);
       bar.users = without(bar.users, userId);
       bar.save(function(err, bar){
         if (err) {
           res.status(500).json({ error: err });
         }else{
-          console.log("updatedbar " + bar);
           res.json(bar);
         }
       });
@@ -112,7 +100,6 @@ router.put('/lastSearch',(req,res) => {
           });
         });
       }).catch(err => {
-        console.log('error');
         res.status(500).json({ error: err });
 
       });
