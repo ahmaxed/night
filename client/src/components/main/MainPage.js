@@ -24,10 +24,14 @@ class MainPage extends React.Component {
   onAddUser(e){
     var barId = e.target.id;
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
-      var newiState = this.state.barModel;
-      newiState[barId].users.push(this.props.id);
       this.setState({
-        barModel: newiState
+        barModel: {
+            ...this.state.barModel,
+            [barId]: {
+                ...this.state.barModel[barId],
+                users: [...this.state.barModel[barId].users, this.props.id]
+            }
+        }
       });
     }).catch( err => {
     });
