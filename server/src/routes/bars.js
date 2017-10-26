@@ -7,6 +7,7 @@ import { without } from 'lodash';
 
 let router = express.Router();
 
+//add user to bar in DB, create new barModel if bar doesn't exist in DB yet
 router.put('/addUser',authenticate,(req,res) => {
   let {yelpId, userId} = req.body;
 
@@ -41,9 +42,10 @@ router.put('/addUser',authenticate,(req,res) => {
   })
 });
 
-// remove bar if no user exist
+//remove user from bar, and remove bar from DB if no user exist
 router.put('/removeUser',authenticate,(req,res) => {
   let {yelpId, userId} = req.body;
+  
   barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
       res.status(500).json({ error: err });

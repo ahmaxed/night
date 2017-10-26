@@ -11,7 +11,7 @@ class MainPage extends React.Component {
     this.state = {
       isLoading: false,
       input: "",
-      bars:null,
+      bars: null,
       barModel: null
     }
     this.onChange = this.onChange.bind(this);
@@ -20,9 +20,9 @@ class MainPage extends React.Component {
     this.onRemoveUser = this.onRemoveUser.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
   }
+  
   onAddUser(e){
     var barId = e.target.id;
-    //should be changed to immutable setstate
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
       var newiState = this.state.barModel;
       newiState[barId].users.push(this.props.id);
@@ -30,36 +30,27 @@ class MainPage extends React.Component {
         barModel: newiState
       });
     }).catch( err => {
-
     });
   }
+  
   onRemoveUser(e){
     var barId = e.target.id;
     this.props.removeUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
-      //should be changed to immutable setstate
       var newiState = this.state.barModel;
       newiState[barId].users = without(newiState[barId].users, this.props.id);
       this.setState({
         barModel: newiState
       });
-          /*this.setState({
-            barModel: {
-              ...this.state.barModel,
-              this.state.barModel[barId]: {
-                ...this.state.barModel[barId],
-                users: without(this.state.barModel[barId].users, this.props.id)
-              }
-            },
-          });*/
     }).catch( err => {
-
     });
   }
+  
   onChange(e){
     this.setState({
-      [e.target.name]: e.target.value
+      input: e.target.value
     });
   }
+  
   onSubmit(e){
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
@@ -68,14 +59,13 @@ class MainPage extends React.Component {
       });
     });
   }
+  
   onKeyDown(e){
     if(e.keyCode === 13) {
       this.onSubmit();
     }
   }
-  componentWillMount(){
-
-  }
+  
   render(){
     var bars = null;
     if(this.state.bars){
