@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { without } from 'lodash';
 
 function GetBarModelUsers(props) {
-  //console.log(props.barModel[props.bar.yelpId]);
   if(props.barModel[props.bar.id]) {
     return <h5>{props.barModel[props.bar.id].users.length} attending</h5>;
   }
@@ -45,8 +44,6 @@ class MainPage extends React.Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
   onAddUser(e){
-  	console.log('add');
-    console.log(e.target.id);
     var barId = e.target.id;
     //should be changed to immutable setstate
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
@@ -60,10 +57,7 @@ class MainPage extends React.Component {
     });
   }
   onRemoveUser(e){
-    console.log('Remove');
-    console.log(e.target.id);
     var barId = e.target.id;
-    console.log(this.state.barModel[e.target.id].users);
     this.props.removeUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
       //should be changed to immutable setstate
       var newiState = this.state.barModel;
@@ -92,7 +86,6 @@ class MainPage extends React.Component {
   onSubmit(e){
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
-      console.log(res.data[1]);
       this.setState({bars: res.data[0],
         barModel: res.data[1]
       });
@@ -103,10 +96,11 @@ class MainPage extends React.Component {
       this.onSubmit();
     }
   }
+  componentWillMount(){
 
+  }
   render(){
     var bars = null;
-    console.log("barmodel in render" + this.state.barModel);
     if(this.state.bars){
       bars = this.state.bars.map((bar, index )=>
         <li key={index} className="list-group-item row" onClick={this.props.onClick} id={bar.id} >
@@ -147,7 +141,8 @@ class MainPage extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      id: state.auth.user.id
+      id: state.auth.user.id,
+      lastSearch: state.auth.user.lastSearch
     }
 }
 export default connect(mapStateToProps, {updateSearch, addUser, removeUser})(MainPage);
