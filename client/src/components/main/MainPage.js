@@ -1,6 +1,6 @@
 import React from 'react';
 import { updateSearch, addUser, removeUser } from '../../actions/barActions';
-import { GetBarModelUsers, GetIfUserIsAttending } from './conditionalRenders.js';
+import { GetNumberOfUsersAttending, GetIfUserIsAttending } from './conditionalRenders';
 import { connect } from 'react-redux';
 import { without } from 'lodash';
 
@@ -93,7 +93,7 @@ class MainPage extends React.Component {
 
           <div className="xs xxs col-xs-5 col-sm-3 col-md-4 col-lg-3 text-right">
           	<h5 id="phone">{bar.display_phone}</h5>
-            <GetBarModelUsers bar={bar} barModel={this.state.barModel} />
+            <GetNumberOfUsersAttending bar={bar} barModel={this.state.barModel} />
             <GetIfUserIsAttending bar={bar} barModel={this.state.barModel} id={this.props.id} onAddUser={this.onAddUser} onRemoveUser={this.onRemoveUser} />
           </div>
         </li>
