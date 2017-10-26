@@ -1,5 +1,5 @@
 ## FCC-Nightlife-App
-##### Build a Nightlife Coordination App project [freecodecamp.com](https://www.freecodecamp.org/challenges/build-a-nightlife-coordination-app)
+##### Build a Nightlife Coordination App project for [freecodecamp.com](https://www.freecodecamp.org/challenges/build-a-nightlife-coordination-app)
 ##### Check it out [here](https://fcc-nightlife.glitch.me/)
 
 <br/>
