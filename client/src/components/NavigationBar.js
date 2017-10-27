@@ -26,13 +26,9 @@ class NavigationBar extends React.Component {
     );
     return (
       <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="">
-            <Link to="/" className='navbar-brand'> NightLife </Link>
-          </div>
-          <div className="collapse navbar-collapse">
-              { isAuthenticated ? userLinks : guestLinks }
-          </div>
+        <Link to="/" className='navbar-brand'> NightLife </Link>
+        <div className="collapse navbar-collapse">
+          { isAuthenticated ? userLinks : guestLinks }
         </div>
       </nav>
     );
