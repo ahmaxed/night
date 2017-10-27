@@ -45,7 +45,15 @@ ul, li {
   width: 96%; 
 }
 
+.navbar, .navbar-collapse {
+  max-height: 50px;
+}
+
 @media screen and (max-width: 767px) {
+  .navbar {
+    border-radius: 4px;
+  }
+
   img {
   	 top: -50px;
     clip: rect(50px, 1000px, 150px, 0px);  
