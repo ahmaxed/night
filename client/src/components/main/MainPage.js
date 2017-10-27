@@ -2,7 +2,7 @@ import React from 'react';
 import { updateSearch, addUser, removeUser } from '../../actions/barActions';
 import { GetNumberOfUsersAttending, GetIfUserIsAttending } from './conditionalRenders';
 import { connect } from 'react-redux';
-import { without } from 'lodash';
+
 
 
 class MainPage extends React.Component {
@@ -26,26 +26,36 @@ class MainPage extends React.Component {
     this.props.addUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
       this.setState({
         barModel: {
-            ...this.state.barModel,
-            [barId]: {
-                ...this.state.barModel[barId],
-                users: [...this.state.barModel[barId].users, this.props.id]
-            }
+          ...this.state.barModel,
+          [barId]: {
+            ...this.state.barModel[barId],
+            users: [...this.state.barModel[barId].users, this.props.id]
+          }
         }
       });
     }).catch( err => {
+      console.log(err);
     });
   }
 
   onRemoveUser(e){
     var barId = e.target.id;
     this.props.removeUser({yelpId: e.target.id, userId: this.props.id}).then(res => {
-      var newiState = this.state.barModel;
-      newiState[barId].users = without(newiState[barId].users, this.props.id);
-      this.setState({
-        barModel: newiState
-      });
+      const index = this.state.barModel[barId].users.indexOf(this.props.id);
+      if (index >= 0) {
+        this.setState({
+          barModel: {
+            ...this.state.barModel,
+            [barId]: {
+              ...this.state.barModel[barId],
+              users: [...this.state.barModel[barId].users.slice(0, index),
+               ...this.state.barModel[barId].users.slice(index + 1)]
+            }
+          }
+        });
+      }
     }).catch( err => {
+      console.log(err);
     });
   }
 
