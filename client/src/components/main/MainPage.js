@@ -66,6 +66,8 @@ class MainPage extends React.Component {
   }
 
   onSubmit(e){
+  	 localStorage.setItem('lastSearch', JSON.stringify(this.state.input));
+    
     this.props.updateSearch({_id: this.props.id, lastSearch: this.state.input})
     .then(res => {
       this.setState({bars: res.data[0],

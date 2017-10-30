@@ -30,9 +30,10 @@ class LoginForm extends React.Component {
 
   onSubmit(e){
     e.preventDefault();
+    
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading: true});
-      this.props.login(this.state).then(
+      this.setState({ errors: {}, isLoading: true });
+      this.props.login(this.state, JSON.parse(localStorage.getItem('lastSearch'))).then(
         (res) => this.context.router.history.push('/'),
         (err) => this.setState({ errors: err.response.data.errors, isLoading: false})
       );
@@ -40,7 +41,7 @@ class LoginForm extends React.Component {
   }
 
   onChange(e){
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {

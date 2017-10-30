@@ -18,13 +18,12 @@ export function logout() {
   }
 }
 
-export function login(data){
+export function login(data, lastSearch){
   return dispatch => {
-    return axios.post('/api/auth', data).then(res => {
+    return axios.post('/api/auth', {data, lastSearch}).then(res => {
       const token = res.data.token;
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
-      console.log(jwtDecode(token));
       dispatch(setCurrentUser(jwtDecode(token)));
     });
   }
