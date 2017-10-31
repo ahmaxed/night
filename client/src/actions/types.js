@@ -1,3 +1,6 @@
 export const ADD_FLASH_MESSAGE = 'ADD_FLASH_MESSAGE';
 export const DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const LOAD_BARS = 'LOAD_BARS';
+export const ADD_USER  = 'ADD_USER';
+export const REMOVE_USER = 'REMOVE_USER';

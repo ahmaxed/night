@@ -45,7 +45,7 @@ router.put('/addUser',authenticate,(req,res) => {
 //remove user from bar, and remove bar from DB if no user exist
 router.put('/removeUser',authenticate,(req,res) => {
   let {yelpId, userId} = req.body;
-  
+
   barModel.findOne({"yelpId":yelpId}, function (err, bar) {
     if (err)
       res.status(500).json({ error: err });
