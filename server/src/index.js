@@ -8,7 +8,7 @@ import auth from './routes/auth';
 import bars from './routes/bars';
 
 
-require('dotenv').config();
+require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
 
 var port = process.env.PORT || 8080;
 
@@ -16,6 +16,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/night', { useMongoClient: true });
 
 let app = express();
+
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.use(bodyParser.json());
 console.log(process.env.JWT_SECRET);
